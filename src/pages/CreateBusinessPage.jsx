@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useAuth } from '@/contexts/AuthContext.jsx';
+import { supabase } from '@/lib/customSupabaseClient';
+import { useAuth } from '@/contexts/SupabaseAuthContext.jsx';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowLeft, Building2, FileText, MapPin } from 'lucide-react';
-import { supabase } from '@/lib/customSupabaseClient';
 
 const CreateBusinessPage = () => {
     const navigate = useNavigate();
@@ -28,36 +28,35 @@ const CreateBusinessPage = () => {
         }
         setLoading(true);
 
-        const trialEndDate = new Date();
-        trialEndDate.setDate(trialEndDate.getDate() + 14);
+        const trialEndsAt = new Date();
+        trialEndsAt.setDate(trialEndsAt.getDate() + 14);
 
-        const { data, error } = await supabase
-            .from('businesses')
-            .insert({
+        try {
+            const { error } = await supabase.from('businesses').insert({
                 name,
                 description,
                 address,
                 owner_id: user.id,
-                subscription_status: 'TRIAL',
-                trial_ends_at: trialEndDate.toISOString(),
-            })
-            .select();
-
-        if (error) {
-            toast({
-                variant: "destructive",
-                title: "Error al crear el negocio",
-                description: error.message || "No se pudo guardar el negocio en la base de datos.",
+                trial_ends_at: trialEndsAt.toISOString(),
+                subscription_status: 'TRIAL'
             });
-        } else {
+
+            if (error) throw error;
+
             toast({
                 title: "¡Negocio creado!",
                 description: `${name} ha sido añadido a tu lista.`,
             });
             navigate('/owner/dashboard');
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Error al crear el negocio",
+                description: error.message,
+            });
+        } finally {
+            setLoading(false);
         }
-
-        setLoading(false);
     };
 
     return (

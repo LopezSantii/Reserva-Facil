@@ -8,9 +8,8 @@ import OwnerDashboard from '@/pages/OwnerDashboard.jsx';
 import ClientDashboard from '@/pages/ClientDashboard.jsx';
 import SearchBusinesses from '@/pages/SearchBusinesses.jsx';
 import BookingPage from '@/pages/BookingPage.jsx';
-import { useAuth } from '@/contexts/AuthContext.jsx';
+import { useAuth } from '@/contexts/SupabaseAuthContext.jsx';
 import CreateBusinessPage from '@/pages/CreateBusinessPage.jsx';
-import ManageSchedulePage from '@/pages/ManageSchedulePage.jsx';
 
 function ProtectedRoute({ children, allowedRoles }) {
   const { user, loading } = useAuth();
@@ -46,6 +45,7 @@ function App() {
     if (!user) {
       return <LandingPage />;
     }
+    // Only redirect if user has a role and is on the landing page
     if (user.role && location.pathname === '/') {
       if (user.role === 'owner') {
         return <Navigate to="/owner/dashboard" />;
@@ -68,14 +68,7 @@ function App() {
         <Route path="/login" element={user ? <Navigate to="/" /> : <LoginPage />} />
         <Route path="/register" element={user ? <Navigate to="/" /> : <RegisterPage />} />
         <Route path="/search" element={<SearchBusinesses />} />
-        <Route 
-          path="/booking/:businessId" 
-          element={
-            <ProtectedRoute allowedRoles={['client', 'owner']}>
-              <BookingPage />
-            </ProtectedRoute>
-          } 
-        />
+        <Route path="/booking/:businessId" element={<BookingPage />} />
         <Route
           path="/owner/dashboard"
           element={
@@ -89,14 +82,6 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={['owner']}>
               <CreateBusinessPage />
-            </ProtectedRoute>
-          }
-        />
-         <Route
-          path="/owner/manage-schedule/:businessId"
-          element={
-            <ProtectedRoute allowedRoles={['owner']}>
-              <ManageSchedulePage />
             </ProtectedRoute>
           }
         />

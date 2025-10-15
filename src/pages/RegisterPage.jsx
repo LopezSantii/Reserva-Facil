@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
@@ -7,24 +8,22 @@ import { Button } from '@/components/ui/button.jsx';
 import { Input } from '@/components/ui/input.jsx';
 import { Label } from '@/components/ui/label.jsx';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs.jsx';
-import { useAuth } from '@/contexts/AuthContext.jsx';
+import { useAuth } from '@/contexts/SupabaseAuthContext.jsx';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
-  const { signUp, loading } = useAuth();
+  const { signUp } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const [role, setRole] = useState('client');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password.length < 6) {
-        // You can use toast here if you have it setup
-        alert("La contraseña debe tener al menos 6 caracteres.");
-        return;
-    }
+    setLoading(true);
     await signUp(email, password, name, role);
+    setLoading(false);
   };
 
   return (

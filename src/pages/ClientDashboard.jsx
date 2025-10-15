@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Button } from '@/components/ui/button.jsx';
-import { useAuth } from '@/contexts/AuthContext.jsx';
+import { useAuth } from '@/contexts/SupabaseAuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import { Search, Calendar } from 'lucide-react';
 
