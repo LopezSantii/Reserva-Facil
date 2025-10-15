@@ -1,0 +1,9 @@
+## Pages
+- [Buscar Negocios - Reserva Fácil](/searchbusinesses): Encuentra y reserva en los mejores locales.
+- [Crear Negocio - Reserva Fácil](/createbusiness): Añade un nuevo negocio a tu cuenta.
+- [Iniciar Sesión - Reserva Fácil](/login): Inicia sesión en tu cuenta de Reserva Fácil
+- [Panel de Cliente - Reserva Fácil](/clientdashboard): Gestiona tus próximas reservas.
+- [Panel de Negocio - Reserva Fácil](/ownerdashboard): Gestiona tu negocio, horarios y reservas.
+- [Registro - Reserva Fácil](/register): Crea tu cuenta en Reserva Fácil
+- [Reserva Fácil - Plataforma de Reservas Online](/landing): La mejor plataforma para gestionar reservas y turnos online. Prueba gratis por 14 días.
+- [Reservar Turno - Reserva Fácil](/booking): Selecciona un horario y reserva tu turno.
